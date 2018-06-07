@@ -1,0 +1,15 @@
+<%= bootstrap_form_for @memo do |f| %>
+  <%= f.hidden_field :user_id, value: current_user.id  %> 
+  <%= f.text_field :title, label: '제목' %>
+  <%= f.text_area :content, label: 'Memo', class: "tinymce", rows: 15, cols: 120 %>
+  <%= tinymce %>
+  <ul>
+    <%= f.fields_for :hashtags do |h| %>
+      <li>
+        <%= h.label :title, 'hashtag' %>
+        <%= h.text_field :title %>
+      </li>
+    <% end %>
+  </ul>
+  <%= f.submit %>
+<% end %>

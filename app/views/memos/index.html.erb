@@ -1,0 +1,29 @@
+<h1>Hack Your Memo</h1>
+ <%= form_tag(memos_path, :method => "get", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Posts" %>
+    <%= submit_tag "Search" %>
+  <% end %>
+<div class="table-responsive">
+  <table class="table table-fit">
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>user</th>
+        <th>comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @memos.each do |memo| %>
+        <tr>
+          <td><%= link_to memo.title, memo %></td>
+          <td><%= memo.user.email %></td>
+          <td><%= memo.comments.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @memos %>
+</div>
+
+
+    

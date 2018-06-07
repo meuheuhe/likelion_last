@@ -1,0 +1,46 @@
+<h1><%= @memo.title %></h1>
+<hr />
+<h2>by <%= @memo.user.email %></h2>
+
+<% if current_user == @memo.user %>
+  <%= link_to '수정하기', edit_memo_path(@memo) %> | 
+  <%= link_to '삭제하기', memo_path, method: :delete, data: {confirm: "진짜로 지우?"} %>
+<% end %>
+<hr />
+  <%= @memo.content.html_safe %>
+<hr />
+  <strong> hashtag : </strong>
+  <% @memo.hashtags.each do |h| %>
+    <%= h.title %>
+  <% end %>
+<div class="well">
+  <% if user_signed_in? %>
+    <%= bootstrap_form_for @comment, url: memo_comments_path(@memo) do |f| %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <%= f.hidden_field :memo_id, value: @memo.id %>
+      <%= f.text_field :content, label: 'Leave a comment!' %>
+      <%= f.submit %>
+    <% end %>
+  <% else %>
+    <%= link_to '댓글을 남기려면 로그인 하세요!', new_user_session_path	%>
+  <% end %>
+</div>
+
+<hr />
+
+<% @comments.each do |comment| %>
+  <div class="media">
+    <div class="media-body">
+      <h4 class="media-heading">
+        <strong><%= comment.user.email %></strong>
+        <%= icon 'time' %>
+        <small><%= local_time(comment.created_at) %></small>
+        <% if current_user == comment.user %>
+          <%= link_to icon('trash'), memo_comment_path(@memo, comment), method: :delete %>
+        <% end %>
+      </h4>
+      <%= comment.content %>
+    </div>
+  </div>
+  <hr />
+<% end %>

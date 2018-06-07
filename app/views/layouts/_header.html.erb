@@ -1,0 +1,16 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to 'Memo app', root_path, id: 'logo'%>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'Neo Memo', new_memo_path %></li>
+        <% if user_signed_in? #로그인을 했으면? %>
+          <li><%= link_to 'Log out', destroy_user_session_path, method: :delete %></li>
+        <% else #로그인을 안했으면 %>
+          <li><%= link_to 'Log in', new_user_session_path %></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
